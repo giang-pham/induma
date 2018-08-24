@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+<body>
+<div id="app">
+    <v-app>
+        <v-content>
+            <v-container>
+                <span>Put company names here</span>
+                <v-layout row wrap justify-center class="my-3">
+                    <v-flex xs4>
+                        <textarea v-model="nameStr" placeholder="add multiple lines"
+                                  rows="20" cols="50"
+                                  style="border:solid 1px orange;">
+                        </textarea>
+                    </v-flex>
+                    <v-flex xs8>
+                        <template>
+                            <div class="app-body row">
+                                <table>
+                                    <company-industry v-for="company in companies"
+                                                      v-bind:company="company"
+                                                      v-bind:key="Math.random()"/>
+                                </table>
+                            </div>
+                        </template>
+                    </v-flex>
+                </v-layout>
+                <button v-on:click="getIndustry">Submit</button>
+            </v-container>
+        </v-content>
+
+    </v-app>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

@@ -3,6 +3,7 @@ new Vue({
     data: {
         nameStr: [],
         companies: [],
+        rule: ''
     },
     methods: {
         getIndustry: function () {
@@ -16,13 +17,16 @@ Vue.component('company-industry', {
     data: function() {
         return {
             url: 'Loading...',
-            industry: 'Loading...'
+            industry: 'Loading...',
+            iRule: this.rule
         }
     },
     created: function () {
         const vm = this;
         axios
-            .get('/search?cName=' + vm.company)
+            .get('/search?cName=' + vm.company
+                + '&iRule=' + vm.iRule
+                + '&iTag=' + 'MATCHED')
             .then(function (response) {
                     vm.industry = response.data.industry;
                     vm.url = response.data.url;
@@ -34,6 +38,8 @@ Vue.component('company-industry', {
                 console.log(error.response)
             });
     },
-    props: ['company'],
-    template: '<tr><td><div style="white-space: nowrap;overflow: hidden;max-width: 500px;text-overflow: ellipsis;"><a v-bind:href="url">{{ url }}</a></div></td><td>{{ industry }}</td></tr>'
+    props: ['company', 'rule'],
+    template: '<tr><td style="padding-right: 10px;"><div style="white-space: nowrap;overflow: hidden;max-width: 500px;text-overflow: ellipsis;">' +
+    '<a v-bind:href="url">{{ url }}</a>' +
+    '</div></td><td>{{ industry }}</td></tr>'
 })

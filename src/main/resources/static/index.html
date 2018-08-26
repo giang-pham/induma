@@ -3,6 +3,7 @@
 <head>
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 </head>
 <body>
@@ -10,26 +11,34 @@
     <v-app>
         <v-content>
             <v-container>
-                <span>Put company names here</span>
-                <v-layout row wrap justify-center class="my-3">
+                <v-layout row wrap class="my-3">
                     <v-flex xs4>
+                        <span>Rule</span>
+                        <input v-model="rule" style="width: 80%">
+                    </v-flex>
+                </v-layout>
+
+                    <v-layout row wrap>
+                        <v-flex xs12><span>Put company names here</span></v-flex>
+                        <v-flex xs4>
                         <textarea v-model="nameStr" placeholder="add multiple lines"
                                   rows="20" cols="50"
                                   style="border:solid 1px orange;">
                         </textarea>
-                    </v-flex>
-                    <v-flex xs8>
-                        <template>
-                            <div class="app-body row">
-                                <table>
-                                    <company-industry v-for="company in companies"
-                                                      v-bind:company="company"
-                                                      v-bind:key="Math.random()"/>
-                                </table>
-                            </div>
-                        </template>
-                    </v-flex>
-                </v-layout>
+                        </v-flex>
+                        <v-flex xs8>
+                            <template>
+                                <div class="app-body row">
+                                    <table>
+                                        <company-industry v-for="company in companies"
+                                                          v-bind:company="company"
+                                                          v-bind:rule="rule"
+                                                          v-bind:key="Math.random()"/>
+                                    </table>
+                                </div>
+                            </template>
+                        </v-flex>
+                    </v-layout>
                 <button v-on:click="getIndustry">Submit</button>
             </v-container>
         </v-content>

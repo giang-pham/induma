@@ -1,6 +1,7 @@
 package indumain.control;
 
 import indumain.model.Result;
+import indumain.rule.StringIndustryRule;
 import indumain.service.MatchService;
 import indumain.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 public class SearchController {
@@ -25,10 +27,12 @@ public class SearchController {
 
     @GetMapping("/search")
     public CompletableFuture<Result> findIndustry (
-            @RequestParam("cName") String companyName) throws IOException, InterruptedException {
+            @RequestParam("cName") String companyName,
+            @RequestParam("iTag") String industryTag,
+            @RequestParam("iRule") String industryRule) throws IOException, InterruptedException, ExecutionException {
         CompletableFuture<String> urlStage = searchService.getCompanyUrl(companyName);
         return urlStage.thenComposeAsync(url -> searchService.getContent(url))
-                .thenComposeAsync(c -> matchService.getIndustry(c))
+                .thenComposeAsync(c -> matchService.getIndustry(c, new StringIndustryRule(industryTag, industryRule)))
                 .thenCombine(urlStage, (industry, url) -> new Result(url, industry));
     }
 }

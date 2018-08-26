@@ -14,6 +14,7 @@ import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.util.Iterator;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -43,11 +44,6 @@ public class GoogleSearchService implements SearchService {
         while(a.hasNext()) {
             Jerry next = a.next();
             String href = next.attr("href");
-            if(href != null && !SOCIAL.test(href)) {
-                if(href.startsWith("/url?q=")) {
-
-                }
-            }
             if(href != null && href.startsWith("/url?q=") && !SOCIAL.test(href)) {
                 String url = href
                         .replace("/url?q=", "")
